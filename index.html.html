@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RandomMeet — Meet real people</title>
+<style>
+:root{--bg:#090d1b;--panel:#141b2e;--panel2:#202a44;--line:#2b3654;--text:#f5f7ff;--muted:#a8b4d0;--purple:#806cff;--pink:#f56ba9;--green:#73e2b2}
+*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:radial-gradient(ellipse at 15% 0,#282052 0,transparent 38%),var(--bg);min-height:100vh}
+header{height:72px;padding:0 clamp(16px,4vw,50px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}.logo{font-size:1.35rem;font-weight:850;letter-spacing:-.6px}.logo b{color:var(--pink)}.tag{font-size:.82rem;color:#c4f4dc;background:#15342d;padding:8px 12px;border-radius:22px}
+main{max-width:1100px;margin:35px auto;padding:0 18px}.hero{text-align:center;margin-bottom:26px}.hero h1{font-size:clamp(2.2rem,5vw,3.7rem);letter-spacing:-1.8px;margin:0 0 9px}.hero h1 span{background:linear-gradient(90deg,#9d8cff,#ff7eb6);color:transparent;background-clip:text}.hero p{color:var(--muted);margin:0}
+.panel{background:#141b2eec;border:1px solid var(--line);border-radius:22px;padding:clamp(16px,3vw,26px);box-shadow:0 20px 60px #0003}.setup{max-width:760px;margin:0 auto 20px}.field-title{font-weight:750;margin:0 0 12px}.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode{cursor:pointer;border:1px solid var(--line);background:#0e1426;color:var(--text);padding:18px 14px;border-radius:16px;text-align:left}.mode.active{border-color:#a093ff;background:#28234c;box-shadow:inset 0 0 0 1px #8d7cff}.mode .emoji{font-size:1.8rem;display:block;margin-bottom:8px}.mode strong{display:block;font-size:1rem}.mode small{display:block;color:var(--muted);margin-top:5px;line-height:1.4}.interest-row{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.chip{border:1px solid var(--line);background:#0e1426;color:#c8d1e8;border-radius:22px;padding:8px 12px;cursor:pointer}.chip.selected{background:#332b68;border-color:#9a8cff;color:white}.start{width:100%;border:0;border-radius:14px;padding:15px 18px;font-weight:850;font-size:1.02rem;color:white;background:linear-gradient(110deg,var(--purple),var(--pink));cursor:pointer}.small-note{font-size:.8rem;line-height:1.55;color:var(--muted);margin:12px 0 0}.workspace{display:none;grid-template-columns:1.35fr .9fr;gap:16px}.workspace.show{display:grid}.stage{position:relative;aspect-ratio:16/10;background:linear-gradient(145deg,#222c49,#0c1223);border-radius:15px;overflow:hidden;display:grid;place-items:center}.stage video{width:100%;height:100%;object-fit:cover;display:none}.placeholder{text-align:center;color:var(--muted);padding:20px}.placeholder .big{font-size:3rem;display:block;margin-bottom:10px}.self{position:absolute;right:12px;bottom:12px;width:25%;aspect-ratio:4/3;background:#0b1020;border:2px solid #ffffff9c;border-radius:12px;overflow:hidden;display:none}.self video{width:100%;height:100%;object-fit:cover;display:block}.status{color:var(--muted);font-size:.87rem;margin:12px 0;display:flex;gap:8px;align-items:center}.dot{width:8px;height:8px;background:#f3c76a;border-radius:50%}.controls{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:11px;padding:11px 14px;font-weight:750;color:var(--text);background:var(--panel2);cursor:pointer}.btn.primary{background:linear-gradient(110deg,var(--purple),var(--pink));border:0}.btn.stop{background:#49263a;color:#ffdce8}.chatbox{display:flex;flex-direction:column;min-height:360px}.chatbox h2{font-size:1.05rem;margin:2px 0 12px}.messages{flex:1;min-height:220px;max-height:360px;overflow:auto;background:#0d1324;border-radius:12px;padding:12px}.bubble{background:#222d49;border-radius:12px;padding:10px 12px;margin-bottom:9px;max-width:94%;font-size:.9rem;line-height:1.4;overflow-wrap:anywhere}.bubble.note{background:#20372f;color:#c8f5df;font-size:.82rem}.bubble.you{margin-left:auto;background:#4d438f}.send{display:flex;gap:8px;margin-top:10px}.send input{min-width:0;flex:1;background:#0d1324;border:1px solid var(--line);border-radius:11px;padding:12px;color:white;font:inherit}.send button{padding:0 14px}.privacy{font-size:.78rem;line-height:1.5;color:var(--muted);margin-top:12px}.hidden{display:none!important}.footer{text-align:center;color:#7885a5;font-size:.8rem;padding:26px 15px}
+@media(max-width:760px){.workspace.show{grid-template-columns:1fr}.hero{margin-top:5px}.chatbox{min-height:330px}.stage{aspect-ratio:4/3}}
+</style>
+</head>
+<body>
+<header><div class="logo">Random<b>Meet</b></div><div class="tag">● Human connections · Safety first</div></header>
+<main>
+<section class="hero"><h1>Meet real people <span>worldwide.</span></h1><p>Choose video or text chat and meet someone new.</p></section>
+<section class="panel setup" id="setup">
+  <p class="field-title">Choose your chat type</p>
+  <div class="modes">
+    <button class="mode active" id="videoMode" type="button"><span class="emoji">📹</span><strong>Video chat</strong><small>Talk face-to-face with camera and microphone.</small></button>
+    <button class="mode" id="textMode" type="button"><span class="emoji">💬</span><strong>Text chat</strong><small>Meet through messages, no camera needed.</small></button>
+  </div>
+  <p class="field-title" style="margin-top:20px">Choose an interest (optional)</p>
+  <div class="interest-row">
+    <button class="chip selected" type="button">Anything</button><button class="chip" type="button">Music</button><button class="chip" type="button">Gaming</button><button class="chip" type="button">Movies</button><button class="chip" type="button">Study</button><button class="chip" type="button">Technology</button>
+  </div>
+  <label style="display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-size:.85rem;line-height:1.45;margin:12px 0 16px"><input id="agree" type="checkbox" style="margin-top:3px"> I will be respectful, avoid sharing private information, and report inappropriate behaviour.</label>
+  <button class="start" id="startBtn">Start video chat →</button>
+  <p class="small-note">Real users only in the intended live service. This downloadable prototype is not yet connected to a matching server, so it cannot find strangers or deliver messages to them.</p>
+</section>
+<section class="workspace" id="workspace">
+  <section class="panel">
+    <div class="stage">
+      <div class="placeholder" id="placeholder"><span class="big">🌐</span><strong id="stageTitle">Ready to meet someone?</strong><p id="stageSub">The live matching service is not connected yet.</p></div>
+      <video id="remoteVideo" autoplay playsinline></video>
+      <div class="self" id="self"><video id="localVideo" autoplay muted playsinline></video></div>
+    </div>
+    <div class="status"><span class="dot"></span><span id="status">Not connected · Prototype mode</span></div>
+    <div class="controls">
+      <button class="btn primary" id="cameraBtn">Enable camera</button><button class="btn" id="micBtn" disabled>Mic: off</button><button class="btn" id="nextBtn">Next</button><button class="btn stop" id="stopBtn">Stop</button><button class="btn" id="changeBtn">Change mode</button>
+    </div>
+    <p class="privacy" id="videoNotice">Your camera preview stays on this device in this prototype; no stranger can see it.</p>
+  </section>
+  <section class="panel chatbox">
+    <h2 id="chatTitle">💬 Text chat (optional)</h2>
+    <div class="messages" id="messages" aria-live="polite"><div class="bubble note">Welcome! Keep personal information private.</div></div>
+    <form class="send" id="chatForm"><input id="messageInput" maxlength="500" placeholder="Write a message…" autocomplete="off" aria-label="Write a message"><button class="btn primary" type="submit">Send</button></form>
+    <p class="privacy">Live launch requires real-time messaging/video infrastructure, reporting and blocking, moderation, and appropriate age safeguards.</p>
+  </section>
+</section>
+</main><div class="footer">RandomMeet · Website prototype</div>
+<script>
+let mode='video',stream=null,micOn=false,selectedInterest='Anything';
+const $=id=>document.getElementById(id);
+function setMode(next){mode=next;$('videoMode').classList.toggle('active',mode==='video');$('textMode').classList.toggle('active',mode==='text');$('startBtn').textContent=mode==='video'?'Start video chat →':'Start text chat →';$('cameraBtn').classList.toggle('hidden',mode!=='video');$('micBtn').classList.toggle('hidden',mode!=='video');$('self').style.display=(mode==='video'&&stream)?'block':'none';$('stageTitle').textContent=mode==='video'?'Ready for a video chat':'Ready for a text chat';$('stageSub').textContent='The live matching service is not connected yet.';$('chatTitle').textContent=mode==='video'?'💬 Text chat (optional)':'💬 Text chat';}
+$('videoMode').onclick=()=>setMode('video');$('textMode').onclick=()=>setMode('text');
+document.querySelectorAll('.chip').forEach(chip=>chip.onclick=()=>{document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));chip.classList.add('selected');selectedInterest=chip.textContent;});
+$('startBtn').onclick=()=>{if(!$('agree').checked){alert('Please confirm the safety agreement before starting.');return;}$('setup').classList.add('hidden');$('workspace').classList.add('show');setMode(mode);$('status').textContent='Prototype mode · No live stranger connected';$('messages').innerHTML='';add('You chose '+(mode==='video'?'video chat':'text chat')+'. Interest: '+selectedInterest+'.','note');add('The matching server is not connected yet, so no real person will be matched.','note');};
+$('changeBtn').onclick=()=>{$('workspace').classList.remove('show');$('setup').classList.remove('hidden');};
+function add(text,kind='you'){const el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;$('messages').appendChild(el);$('messages').scrollTop=$('messages').scrollHeight;}
+$('cameraBtn').onclick=async()=>{try{if(!navigator.mediaDevices?.getUserMedia)throw new Error('no camera api');stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});$('localVideo').srcObject=stream;$('self').style.display='block';$('cameraBtn').textContent='Camera enabled';$('cameraBtn').disabled=true;$('micBtn').disabled=false;$('status').textContent='Local camera preview · Not connected';add('Camera preview is on. Only you can see it in this prototype.','note');}catch(e){$('status').textContent='Camera permission unavailable';add('Could not access camera. Check permissions and open this page using HTTPS or localhost.','note');}};
+$('micBtn').onclick=()=>{if(!stream)return;micOn=!micOn;stream.getAudioTracks().forEach(t=>t.enabled=micOn);$('micBtn').textContent='Mic: '+(micOn?'on':'off');};
+$('nextBtn').onclick=()=>{if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;$('self').style.display='none';$('cameraBtn').disabled=false;$('cameraBtn').textContent='Enable camera';$('micBtn').disabled=true;micOn=false;$('micBtn').textContent='Mic: off';$('status').textContent='No next user available · Prototype mode';add('Next-user matching requires the live backend and another available user.','note');};
+$('stopBtn').onclick=()=>{if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}$('localVideo').srcObject=null;$('self').style.display='none';$('cameraBtn').disabled=false;$('cameraBtn').textContent='Enable camera';$('micBtn').disabled=true;micOn=false;$('micBtn').textContent='Mic: off';$('status').textContent='Stopped · Prototype mode';add('You stopped the preview.','note');};
+$('chatForm').onsubmit=e=>{e.preventDefault();const input=$('messageInput'),v=input.value.trim();if(!v)return;add(v,'you');input.value='';setTimeout(()=>add('Prototype only — this message was not delivered to another person.','note'),100);};
+</script>
+</body></html>
